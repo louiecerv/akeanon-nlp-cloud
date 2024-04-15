@@ -4,6 +4,7 @@ from google_auth_oauthlib import flow
 # Define the Google OAuth 2.0 client ID and secret
 CLIENT_ID = st.secrets['GOOGLE_CLIENT_ID']
 CLIENT_SECRET = st.secrets['GOOGLE_CLIENT_SECRET']
+REDIRECT_URI = st.secrets['REDIRECT_URI']
 
 def app():
     # Set up the OAuth 2.0 flow for Google
