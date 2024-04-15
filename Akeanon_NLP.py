@@ -2,7 +2,6 @@ import streamlit as st
 import os
 import asyncio
 
-from session_state import get
 from httpx_oauth.clients.google import GoogleOAuth2
 
 
@@ -44,28 +43,28 @@ if __name__ == '__main__':
                                 redirect_uri=redirect_uri)
     )
 
-    session_state = get(token=None)
-    if session_state.token is None:
+    # Initialize a session state variable (if needed)
+    if "token" not in st.session_state:
         try:
             code = st.experimental_get_query_params()['code']
         except:
             st.write(f'''<h1>
                 Please login using this <a target="_self"
                 href="{authorization_url}">url</a></h1>''',
-                     unsafe_allow_html=True)
+                    unsafe_allow_html=True)
         else:
             # Verify token is correct:
             try:
                 token = asyncio.run(
                     write_access_token(client=client,
-                                       redirect_uri=redirect_uri,
-                                       code=code))
+                                    redirect_uri=redirect_uri,
+                                    code=code))
             except:
                 st.write(f'''<h1>
                     This account is not allowed or page was refreshed.
                     Please try again: <a target="_self"
                     href="{authorization_url}">url</a></h1>''',
-                         unsafe_allow_html=True)
+                        unsafe_allow_html=True)
             else:
                 # Check if token has expired:
                 if token.is_expired():
@@ -79,12 +78,15 @@ if __name__ == '__main__':
                     session_state.token = token
                     user_id, user_email = asyncio.run(
                         get_email(client=client,
-                                  token=token['access_token'])
+                                token=token['access_token'])
                     )
-                    session_state.user_id = user_id
-                    session_state.user_email = user_email
+                    if "user_id" not in st.session_state:
+                        session_state.user_id = user_id
+                    if "user_email" not in st.session_state:
+                        session_state.user_email = user_email
+                        
                     main(user_id=session_state.user_id,
-                         user_email=session_state.user_email)
+                        user_email=session_state.user_email)
     else:
         main(user_id=session_state.user_id,
-             user_email=session_state.user_email)
+            user_email=session_state.user_email)
