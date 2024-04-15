@@ -1,4 +1,5 @@
 import streamlit as st
+import google.generativeai as genai
 from google_auth_oauthlib import flow
 
 # Define the Google OAuth 2.0 client ID and secret
