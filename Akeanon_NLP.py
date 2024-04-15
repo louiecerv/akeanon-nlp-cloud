@@ -29,6 +29,12 @@ def app():
     df = df.reset_index(drop=True)
     st.write(df)
     st.write ("Please use sentences similar to the ones above for better results.")
+
+    model_list = []    
+    for i, m in zip(range(5), genai.list_tuned_models()):
+        st.write(f"Model {i+1}: {m.name}")
+        model_list.append(m.name)
+
     model = genai.GenerativeModel(model_name="akeanon-sentences")
 
     text_input = st.text_area("Enter Akeanon text here:")
