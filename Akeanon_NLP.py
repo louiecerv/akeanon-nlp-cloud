@@ -7,7 +7,7 @@ CLIENT_SECRET = st.secrets['GOOGLE_CLIENT_SECRET']
 
 def app():
     # Set up the OAuth 2.0 flow for Google
-    flow = flow.InstalledAppFlow.from_client_secrets_file(
+    myflow = flow.InstalledAppFlow.from_client_secrets_file(
         './security/client_secret.json',
         scopes=['openid', 'email', 'profile'])
 
@@ -15,7 +15,7 @@ def app():
     st.title('Akeanon NLP')
 
     # Redirect the user to the Google OAuth consent screen to sign in
-    auth_url, _ = flow.authorization_url(prompt='consent')
+    auth_url, _ = myflow.authorization_url(prompt='consent')
     st.write('Click below to sign in with Google:')
     st.markdown(f'[Sign in with Google]({auth_url})')
 
