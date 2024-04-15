@@ -10,7 +10,7 @@ def app():
     # Set up the OAuth 2.0 flow for Google
     myflow = flow.InstalledAppFlow.from_client_secrets_file(
         './security/client_secret.json',
-        scopes=['openid', 'email', 'profile'])
+        scopes=['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/generative-language.tuning', 'https://www.googleapis.com/auth/generative-language.retriever'])
 
     # Authenticate the user
     st.title('Akeanon NLP')
